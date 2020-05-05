@@ -352,7 +352,7 @@
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-tree</artifactId>
-			<version>5.1.6.FINAL</version>
+			<version>5.3.0.Final</version>
 		</dependency>
 
 		<dependency>
@@ -667,7 +667,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<execute/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
