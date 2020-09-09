@@ -19,7 +19,7 @@
 	   <sm-core.version>2.0.2-SNAPSHOT</sm-core.version>
 	   <sm-core-model.version>2.0.2-SNAPSHOT</sm-core-model.version>
 	   <sm-core-modules.version>2.0.2-SNAPSHOT</sm-core-modules.version>
-	   <sm-search.version>0.0.4</sm-search.version>
+	   <sm-search.version>2.10.0</sm-search.version>
 	   <sm-shop.version>2.0.2-SNAPSHOT</sm-shop.version>
 	   <shopizer-canadapost.version>0.0.1</shopizer-canadapost.version>	
     
