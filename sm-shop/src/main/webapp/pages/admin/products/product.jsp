@@ -114,7 +114,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 				<br/><br/>
 
       					<c:url var="productSave" value="/admin/products/save.html"/>
-                        <form:form method="POST" enctype="multipart/form-data" commandName="product" action="${productSave}">
+                        <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${productSave}">
 
                             <form:errors path="*" cssClass="alert alert-error" element="div" />
                             <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
@@ -125,6 +125,13 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 	                        <div class="controls">
 	                        		  <form:input cssClass="input-large highlight" id="sku" path="product.sku"/>
 	                                  <span class="help-inline"><s:message code="label.generic.alphanumeric" text="Alphanumeric" /><form:errors path="product.sku" cssClass="error" /></span>
+	                        </div>
+                  		</div>
+                  		
+                  		<div class="control-group">
+	                        <label><s:message code="label.product.refsku" text="External system identifier"/></label>
+	                        <div class="controls">
+	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/>
 	                        </div>
                   		</div>
 
@@ -139,10 +146,18 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		</div>
                   		
                   		
+                  	    <div class="control-group">
+                        	<label><s:message code="label.product.preorder" text="Pre-order"/></label>
+                        	<div class="controls">
+                                    <form:checkbox path="product.preOrder" />
+                        	</div>
+                  		</div>
+                  		
+                  		
                   		<div class="control-group">
 	                        <label><s:message code="label.product.availabledate" text="Date available"/></label>
 	                        <div class="controls">
-	                        		 <input id="dateAvailable" name="dateAvailable" value="${product.dateAvailable}" class="small" type="text" data-date-format="<%=com.salesmanager.core.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
+	                        		 <input id="dateAvailable" name="dateAvailable" value="${product.dateAvailable}" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
 	                                 <script type="text/javascript">
 	                                 $('#dateAvailable').datepicker();
 	                                 </script>
@@ -431,7 +446,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         
                   <c:if test="${product.product.id!=null && product.product.id>0}">      
                   <c:url var="createSimilar" value="/admin/products/product/duplicate.html"/>
-                  <form:form method="POST" enctype="multipart/form-data" commandName="product" action="${createSimilar}">
+                  <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${createSimilar}">
 							<input type="hidden" name="productId" value="${product.product.id}" />
 	                        <div class="form-actions">
 	                            <div class="pull-right">

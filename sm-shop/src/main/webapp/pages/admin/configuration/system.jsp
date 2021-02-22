@@ -23,12 +23,31 @@
 							<br/>
 							
 							<c:url var="saveSystemConfiguration" value="/admin/configuration/saveSystemConfiguration.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveSystemConfiguration}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveSystemConfiguration}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
 									<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>    
 
+		                        	   
+		                        	 <div class="control-group">
+	                        				<label><s:message code="label.store.testmode" text="Test mode" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="testMode" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+		                        	   
+
+		                        	 <div class="control-group">
+	                        				<label><s:message code="label.store.debugmode" text="Debug mode" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="debugMode" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+		                        	   
+		                        	   
 		                        	   <div class="control-group">
 	                        				<label><s:message code="label.customer.displaycustomersection" text="Display customer section" /></label>
 	                        				<div class="controls">
@@ -62,6 +81,22 @@
 	                        				</div>
 	                  				   </div>
 	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.store.displaysearchbox" text="Display search box" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displaySearchBox" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
+	                  				   <div class="control-group">
+	                        				<label><s:message code="label.store.displaypagesmenu" text="Display pages menu" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="displayPagesMenu" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
+	                  				   
 	                  				   <c:forEach items="${store.languages}" var="language">
 	                  				   
 	                  				   <div class="control-group">
@@ -76,6 +111,14 @@
 	                  				   </div>
 	                  				   
 	                  				   </c:forEach>
+	                  				   
+	                  				  <div class="control-group">
+	                        				<label><s:message code="label.store.allowPurchaseItems" text="Allow purchase items" /></label>
+	                        				<div class="controls">
+	                        					<form:checkbox path="allowPurchaseItems" /> 
+	                                   			<span class="help-inline"></span>
+	                        				</div>
+	                  				   </div>
 	                  				   
 	                  				   <div class="control-group">
 	                        				<label><s:message code="label.store.displayaddtocartfeatured" text="Allow add to cart on featured items" /></label>

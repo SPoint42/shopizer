@@ -18,21 +18,24 @@ response.setDateHeader ("Expires", -1);
 <script>
 
 $(function(){
-
 	initProduct('<c:out value="${product.id}"/>','#input-<c:out value="${product.id}" />');//pass form div
-
 });
 
 </script>
 
+								<c:set var="SKU" value="product_${product.sku}" scope="request" />
+								<c:if test="${requestScope.CONTENT[SKU]!=null}">
+									<sm:pageContent contentCode="${SKU}"/>
+								</c:if>
+
 
 								<!-- leave the form id as is -->
-								<form id="input-<c:out value="${product.id}" />">
+								<form class="options-form" id="input-<c:out value="${product.id}" />">
 								<!-- select options -->
 								<c:if test="${options!=null && not product.productVirtual}">
 									<c:forEach items="${options}" var="option" varStatus="status">
 										<div class="control-group form-group"> 
-	                        				<label><strong><c:out value="${option.name}"/></strong></label>
+	                        				<strong><label><strong><c:out value="${option.name}"/></strong></label></strong>
 	                        				<div class="controls">	       							
 											<c:choose>
 												<c:when test="${option.type=='select'}">
@@ -48,7 +51,7 @@ $(function(){
 															<img src="<c:url value="${optionValue.image}"/>" height="40">
 														</c:if>
 														<input type="radio" class="attribute" id="${status.index}" name="${status.index}" value="<c:out value="${optionValue.id}"/>" <c:if test="${optionValue.defaultAttribute==true}"> checked="checked" </c:if> />
-														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp;<c:out value="${optionValue.price}"/></c:if><br/>
+														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp; (<c:out value="${optionValue.price}"/>)</c:if><br/>
 													</c:forEach>
 												</c:when>
 												<c:when test="${option.type=='text'}">
@@ -60,7 +63,7 @@ $(function(){
 															<img src="<c:url value="${optionValue.image}"/>" height="40">
 														</c:if>
 														<input type="checkbox" class="attribute" id="${status.index}" name="${status.index}" value="<c:out value="${optionValue.id}"/>"<c:if test="${optionValue.defaultAttribute==true}"> checked="checked" </c:if>  />
-														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp;<c:out value="${optionValue.price}"/></c:if><br/>
+														<c:out value="${optionValue.name}"/><c:if test="${optionValue.price!=null}">&nbsp; (<c:out value="${optionValue.price}"/>)</c:if><br/>
 													</c:forEach>
 												</c:when>										
 											</c:choose>				       							
@@ -70,12 +73,21 @@ $(function(){
 									</c:forEach>
 								</c:if>
 								<br/>
-								<div class="form-inline">
+								<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
+								<c:if test="${product.quantity>0}">
+								<div class="store-btn form-inline">
 								<c:if test="${product.quantityOrderMaximum==-1 || product.quantityOrderMaximum>1 && not product.productVirtual}" >
-									<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="text">
+									
+									<div class="form-group product-qty" style="width: 40%; margin-top: 5px;">
+										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="number" min="<c:choose><c:when test="${product.quantityOrderMinimum != null}">${product.quantityOrderMinimum}</c:when><c:otherwise>1</c:otherwise></c:choose>" max="<c:choose><c:when test="${product.quantityOrderMaximum != null && product.quantityOrderMaximum!=-1}">${product.quantityOrderMaximum}</c:when><c:otherwise>5</c:otherwise></c:choose>" style="width:100% !important;">
+									</div>
+							      
 								</c:if>
-									<button class="btn addToCart addToCartButton" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
+									<button class="btn addToCart addToCartButton btn-buy" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
 								</div>
+								</c:if>
+								</c:if>
+								<!-- TODO quantity == 0 contact us for details on the product -->
 							
 
 							</form>

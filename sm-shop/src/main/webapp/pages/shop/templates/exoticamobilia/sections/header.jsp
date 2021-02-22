@@ -19,18 +19,28 @@ response.setDateHeader ("Expires", -1);
 <!-- TT Typeahead js files -->
 <script src="<c:url value="/resources/js/hogan.js" />"></script>
 <script src="<c:url value="/resources/templates/exoticamobilia/js/bloodhound.min.js" />"></script>
-<script src="<c:url value="/resources/templates/bootstrap3/js/typeahead.bundle.min.js" />"></script>
+<script src="<c:url value="/resources/templates/exoticamobilia/js/typeahead.bundle.min.js" />"></script>
 
 <script type="text/javascript">
-//Search code
+//***** Search code *****
 $(document).ready(function() { 
 
     //post search form
-   $("#searchButton").click(function(){
-   			var searchQuery = $('#searchField').val();
-			$('#hiddenQuery').val(searchQuery);
-			log('Search string : ' + searchQuery);
-	        $('#hiddenSearchForm').submit();
+   $(".searchButton").click(function(e){
+			var searchQuery = $('#searchField').val();
+			var responsiveSearchField = $('#responsiveSearchField').val();
+			var q = searchQuery;
+			if(q==null || q=='') {
+				q = responsiveSearchField;
+			}
+			if(q==null || q =='') {
+				return;
+			}
+			$('#hiddenQuery').val(q);
+			var uri = '<c:url value="/shop/search/search.html"/>';
+			e.preventDefault();//action url will be overriden
+	        $('#hiddenSearchForm').attr('action',url).submit();
+
    });
 
    
@@ -41,11 +51,19 @@ $(document).ready(function() {
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		<c:if test="${requestScope.CONFIGS['useDefaultSearchConfig'][requestScope.LANGUAGE.code]==true}">
 		  <c:if test="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]!=null}">
-		prefetch: '<c:out value="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]}"/>',
+		     prefetch: '<c:out value="${requestScope.CONFIGS['defaultSearchConfigPath'][requestScope.LANGUAGE.code]}"/>',
 		  </c:if>
 	    </c:if>
-	    remote: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.html"/>?q=%QUERY'
+	    remote: {
+    		url: '<c:url value="/services/public/search/${requestScope.MERCHANT_STORE.code}/${requestScope.LANGUAGE.code}/autocomplete.json"/>?q=%QUERY',
+        	filter: function (parsedResponse) {
+            	// parsedResponse is the array returned from your backend
+            	console.log(parsedResponse);
 
+            	// do whatever processing you need here
+            	return JSON.parse(parsedResponse);
+        	}
+    	}
 	});
    
    searchElements.initialize();
@@ -92,7 +110,7 @@ $(document).ready(function() {
 <script type="text/html" id="miniCartTemplate">
 							<li>
 								{{#code}}
-								<table class="table table-hover">
+								<table class="minicart table table-hover">
 									<thead>
 										<tr>
 											<!-- not responsive -->
@@ -115,7 +133,7 @@ $(document).ready(function() {
 												&nbsp
 											{{/image}}
 											</td>
-											<td class="cart-product">{{quantity}} {{name}}</td>
+											<td class="cart-product" width="50%">{{quantity}} {{name}}</td>
 											<td class="cart-amount">{{price}}</td>
 											<td><button productid="{{productId}}" class="close removeProductIcon" onclick="removeItemFromMinicart('{{id}}')">x</button></td>
 										</tr>
@@ -123,7 +141,7 @@ $(document).ready(function() {
 									</tbody>
 								</table>
 								<div class="panel-body text-right">	
-									    <a href="#" onclick="viewShoppingCartPage();" class="btn btn-group btn-default btn-sm"><s:message code="label.checkout" text="Checkout"/></a>
+									    <a href="#" onclick="viewShoppingCartPage();" class="btn btn-group btn-success btn-minicart"><s:message code="label.checkout" text="Checkout"/></a>
 								</div>
 								{{/code}}
 								{{^code}}
@@ -139,7 +157,7 @@ $(document).ready(function() {
 		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> (0)
 		{{/code}}
 		{{#code}}
-		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> ({{quantity}})
+		<span class="no-responsive uppercase"><s:message code="label.cart" text="Shopping cart"/></span> <font color="red"><strong>({{quantity}})</strong></font>
 		{{/code}}
 </script>
 
@@ -152,7 +170,7 @@ $(document).ready(function() {
 					<a onClick="javascript:location.href='<c:url value="/shop/customer/dashboard.html" />';" href="#"><i class="fa fa-user"></i><s:message code="label.customer.myaccount" text="My account"/></a>
 				</li>
 				<li>
-					<a onClick="javascript:location.href='<c:url value="/shop/customer/j_spring_security_logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
+					<a onClick="javascript:location.href='<c:url value="/shop/customer/logout" />';" href="#"><i class="fa fa-power-off"></i><s:message code="button.label.logout" text="Logout"/></a>
 				</li>
 		</ul>
 </script>
@@ -196,7 +214,7 @@ $(document).ready(function() {
 					   <!-- ================ -->
 					   <div class="header-top-first clearfix">
 					       <!-- social links -->
-					       <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null}">
+					       <c:if test="${requestScope.CONFIGS['facebook_page_url'] != null || requestScope.CONFIGS['twitter_handle'] != null || requestScope.CONFIGS['pinterest'] != null || requestScope.CONFIGS['instagram'] != null}">
 						   <ul class="social-links clearfix hidden-xs">
 						       <c:if test="${requestScope.CONFIGS['twitter_handle'] != null}">
 							   <li class="twitter"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['twitter_handle']}"/>"><i class="fa fa-twitter"></i></a></li>
@@ -206,6 +224,9 @@ $(document).ready(function() {
 							   </c:if>
 							   <c:if test="${requestScope.CONFIGS['pinterest'] != null}">
 							   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest"></i></a></li>
+							   </c:if>
+							   <c:if test="${requestScope.CONFIGS['instagram'] != null}">
+							   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram"></i></a></li>
 							   </c:if>
 						   </ul>
 						   </c:if>
@@ -222,7 +243,10 @@ $(document).ready(function() {
 							   <c:if test="${requestScope.CONFIGS['pinterest'] != null}">
 							   <li class="pinterest"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['pinterest']}"/>"><i class="fa fa-pinterest"></i></a></li>
 							   </c:if>
-									</ul>
+							   <c:if test="${requestScope.CONFIGS['instagram'] != null}">
+							   <li class="instagram"><a target="_blank" href="<c:out value="${requestScope.CONFIGS['instagram']}"/>"><i class="fa fa-instagram"></i></a></li>
+							   </c:if>
+							</ul>
 							   </div>
 						   </div>
                         </div>
@@ -239,13 +263,19 @@ $(document).ready(function() {
 								<!-- ================ -->
 								<div class="header-top-dropdown">
                                         <!-- search box -->
+                                        <c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
                                         <div id="searchFieldGroup" class="btn-group dropdown no-responsive">  
 					      					<input id="searchField" class="typeahead form-control" name="q" type="text"  />" autocomplete="off" spellcheck="false" dir="auto" value="<c:out value="${q}"/>">
                                         </div>
                                         <div class="btn-group dropdown">
-                                            <button type="button" id="searchButton" class="btn dropdown-toggle no-responsive" data-toggle="dropdown"><i class="fa fa-search"></i><span class="uppercase"><s:message code="label.generic.search" text="Search" /></span></button>
+                                            <button type="button" class="btn dropdown-toggle no-responsive searchButton" data-toggle="dropdown"><i class="fa fa-search"></i><span class="uppercase"><s:message code="label.generic.search" text="Search" /></span></button>
+                                            <!-- important for submitting search -->
+                                            <form id="hiddenSearchForm" method="post" action="<c:url value="/shop/search/search.html"/>">
+												<input type="hidden" id="hiddenQuery" name="q">
+											</form>
                                         </div>
-                                        <c:if test="${fn:length(requestScope.MERCHANT_STORE.languages) > 0}">
+                                         </c:if>
+                                        <c:if test="${fn:length(requestScope.MERCHANT_STORE.languages) > 1}">
                                         <!-- switch language -->
                                         <div class="btn-group dropdown">
                                         	 <!-- For this template only french and english supported, if required build a dropdown list with all languages -->
@@ -258,14 +288,18 @@ $(document).ready(function() {
                                         </div> 
                                         </c:if>                                       
                                         <!-- Customer account menu populated by JS -->
+                                        <c:if test="${requestScope.CONFIGS['displayCustomerSection'] == true}">
                                         <div class="btn-group dropdown" id="customerAccount"></div>
+                                        </c:if>
                                         
                                         <!-- Shopping cart menu populated by JS -->
+                                        <c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
                                         <div id="miniCart" class="btn-group dropdown">
-                                        	<button id="open-cart" type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart no-desktop"></i> <span id="miniCartSummary"></span></button>
+                                        	<button id="open-cart" type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i> <span id="miniCartSummary"></span></button>
                                         	<!-- miniCartDetails id required to add cart content from html template -->
                                         	<ul id="miniCartDetails" class="dropdown-menu dropdown-menu-right dropdown-animation cart"></ul>
                                         </div>
+                                        </c:if>
 								</div>
 								<!--  header top dropdowns end -->
 
@@ -289,14 +323,17 @@ $(document).ready(function() {
 							<div class="header-left clearfix" id="site-branding">
 								<c:choose>
 									<c:when test="${requestScope.CONTENT['logo']!=null}">
+										<!-- A content logo exist -->
 										<sm:pageContent contentCode="logo"/>
 									</c:when>
 									<c:otherwise>
 										<c:choose>
 						                		<c:when test="${not empty requestScope.MERCHANT_STORE.storeLogo}">
+						                			<!--  use merchant store logo -->
 						                			<img class="logoImage" src="<sm:storeLogo/>"/>
 						                		</c:when>
 						                		<c:otherwise>
+						                			<!-- Use store name -->
 						                			<div class="logo">
 						                			<h1>
 						                			<a class="grey store-name" href="<c:url value="/shop/"/>">
@@ -308,35 +345,8 @@ $(document).ready(function() {
 						                </c:choose>
 									</c:otherwise>
 								</c:choose>
-								<!-- logo -->
-								<!-- 
-								<div class="logo" id="logo">a grey
-									<h1 class="logo-text" alt="Entrepôt de meubles exotiques à Montréal"><span class="logo-text-inner">ExotiKA Mobilia</span></h1>
-								</div>
-
 								
-								<div class="site-slogan">
-									Meubles exotiques importés de qualité
-								</div>
-								-->
-								
-
 							</div>
 							<!-- header-left end -->
 
 						</div>
-
-															
-   <%-- 								
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/.container -->
-   --%>
- 
- 
-
-
-
-			

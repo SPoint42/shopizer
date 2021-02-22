@@ -87,7 +87,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 				<c:url var="saveProductPrice" value="/admin/products/price/save.html"/>
 
 
-				<form:form method="POST" commandName="price" action="${saveProductPrice}">
+				<form:form method="POST" modelAttribute="price" action="${saveProductPrice}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -125,6 +125,15 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                               <div class="controls">
                                           <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
+                              </div>
+                       </div>
+                       
+                       <div class="control-group">
+
+                              <label><s:message code="label.product.price.appender" text="Product price appender"/> (<c:out value="${description.language.code}"/>)</label>
+                              <div class="controls">
+                                          <form:input cssClass="input-large highlight" id="priceAppender${counter.index}" path="descriptions[${counter.index}].priceAppender"/>
+                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].priceAppender" cssClass="error" /></span>
                               </div>
                        </div>	
 					

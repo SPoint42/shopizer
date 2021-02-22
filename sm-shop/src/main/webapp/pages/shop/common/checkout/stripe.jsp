@@ -23,33 +23,58 @@ response.setDateHeader ("Expires", -1);
 			
 				  
 				  function initStripePayment() {
-
+					  
 						    var $form = $('#checkoutForm');
+						    
+						    try {
 
-						    // Disable the submit button to prevent repeated clicks
-						    $form.find('button').prop('disabled', true);
+						    	// Disable the submit button to prevent repeated clicks
+						    	$form.find('button').prop('disabled', true);
 
-						    Stripe.card.createToken($form, stripeResponseHandler);
+						    	Stripe.card.createToken($form, stripeResponseHandler);
+
+						    
+						    } catch(err) {
+						    	
+						    	console.log('Got an error ' + err.message);
+						    	hideSMLoading('#pageContainer');
+						    	//log(err.message);
+						    	showResponseErrorMessage(err.message);
+						    }
 				  }; 
 				  
 				  
 				  function stripeResponseHandler(status, response) {
 					  var $form = $('#checkoutForm');
-
+					  
 					  if (response.error) {
 					    // Show the errors on the form
-					    showResponseErrorMessage(response.error.message);
-					    $('#pageContainer').hideLoading();
+					    var orderValidationMessage = getOrderValidationMessage(response.error.code);
+					    
+					    //log('Validation message ' + orderValidationMessage);
+					    
+					    if(orderValidationMessage == '') {
+					    	orderValidationMessage = error.message;
+					    }
+					    showResponseErrorMessage(orderValidationMessage);
+					    hideSMLoading('#pageContainer');
 					    $form.find('button').prop('disabled', false);
 					  } else {
 					    // response contains id and card, which contains additional card details
 					    var token = response.id;
 					    // Insert the token into the form so it gets submitted to the server
-					    $form.append($('<input type="hidden" name="payment['stripe_token']" />').val(token));
+					    var tokenField = '<input type="hidden" name="payment[\'stripe_token\']" value="' + token +'" /><input type="hidden" name="payment[\'null_creditcard\']" value="null_creditcard"/>';
+					    $form.append(tokenField);
+					    $('#creditcard_card_number').val('');
+					    //log(tokenField);
 					    // and submit
-					    $form.get(0).submit();
+					    
+					    //$form.get(0).submit();
+					    submitForm();
 					  }
 					};
+					<c:if test="">
+					</c:if>
 				  
 				  
 				  
@@ -63,5 +88,5 @@ response.setDateHeader ("Expires", -1);
             </div>
           </div>
           
-          <jsp:include page="/pages/shop/common/checkout/creditCardInformations.jsp" />
+          <jsp:include page="/pages/shop/common/checkout/${creditCardInformationsPage}.jsp" />
 		 

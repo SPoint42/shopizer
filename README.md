@@ -1,50 +1,121 @@
-# Shopizer
+Shopizer (for java 1.8 +)
+-------------------
 
-Shopizer is a free open source Java e-commerce software that is ideal for every online shop or business.
-
-Create your online store in minutes using the secure, fast and reliable application right out of the box or integrate it to your existing technology by using Shopizer's set of tools, APIs and a fully open source customizable environment.
-
-<img src="http://www.shopizer.com/common/images/ecommerce-community.jpg"
- alt="Snowplow logo" width="395px " height="231px" title="Snowplow" align="right" />
-
-Shopizer is built by a dedicated, agile community of Java and e-commerce experts who are motivated by the desire to create the perfect software that is easily adaptable to the demanding practices and changing trends of e-commerce. Shopizer's team is developing for developers first; we are working in a continuous release and delivery environment, which allows us to put out new features and ideas at faster pace. Our technology stack is based on well known, proven technology such as Java, Spring, Hibernate and JQuery. 
+[![last_version](https://img.shields.io/badge/last_version-v2.16.0-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/2.16.0)
+[![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
+[![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
+[![CircleCI](https://circleci.com/gh/shopizer-ecommerce/shopizer.svg?style=svg)](https://circleci.com/gh/shopizer-ecommerce/shopizer)
 
 
+Java open source e-commerce software
 
- 
+- Shopping cart
+- Catalogue
+- Search
+- Checkout
+- Administration
+- REST API
 
-<br/><br/>
-**To find out more, please check out the [Shopizer website] [website]**
+See the demo (jsp):
+-------------------
+http://aws-demo.shopizer.com:8080/
 
-Shopizer provide Web and mobile e-commerce application, tools and APIs for building awesome online stores !!!
-
-| **Agility** 												               | **Community**												              | **Portability**																							                  |
-|--------------------------------------------------------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-|   ![i1] [agility-image]                                                  |       ![i2] [community-image]                                            |         ![i3] [portability-image]                                                                                            |
-| Move quickly with the needs <br/> of your application                    |       Driven by a community <br/>of e-commerce experts                   |        Deploy to 'Platform as a Service' </br>or 'Infrastructure as service' <br/> cloud environments                     |
-
-
-## Why Shopizer
-
-* **Moble Ready** Responsive web and responsive emails, easy theming with frameworks such as bootstrap css and Zurb foundation.
-* **Commerce Engine** Lean and fast application that will help you build your online store effectively and efficiently. Built in shopping cart, inventory management and order flow that run standalone or can be integrated to an existing application. Java and RESTFul API. 
-* **Open source** The code is open source under LGPL licence and is built with reliable Java frameworks such as Spring and Hibernate  
-
-## Read more
-
-| **Technical Docs (Coming soon)**        | **[Setup Guide] [setup]**     | **[Contributing] [contributing]**           |
-|-----------------------------------------|-------------------------------|---------------------------------------------|
-| [![i4] [techdocs-image]][doc]                  | [![i5] [setup-image]] [setup]     | [![i6] [contributing-image]][contributing]                |
+See the demo (angular):
+-------------------
+Available soon
 
 
-[agility-image]: http://umeshawasthi.github.io/shopizer-documentation/images/agility.PNG
-[community-image]: http://umeshawasthi.github.io/shopizer-documentation/images/community.PNG
-[portability-image]: http://umeshawasthi.github.io/shopizer-documentation/images/portability.PNG
-[website]: http://www.shopizer.com
+Get the code:
+-------------------
+Clone the repository:
+     
+	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
 
-[setup]:https://github.com/shopizer-ecommerce/shopizer/wiki/Setup
-[contributing]:https://github.com/shopizer-ecommerce/shopizer/wiki/Contribution
-[doc]:https://github.com/shopizer-ecommerce/shopizer
-[techdocs-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
-[setup-image]: http://umeshawasthi.github.io/shopizer-documentation/images/setup.png
-[contributing-image]: http://umeshawasthi.github.io/shopizer-documentation/images/document.png
+If this is your first time using Github, review http://help.github.com to learn the basics.
+
+You can also download the zip file containing the code from https://github.com/shopizer-ecommerce/shopizer 
+
+To build the application:
+-------------------	
+From the command line:
+
+	$ cd shopizer
+	$ mvnw clean install
+	
+
+Run the application from Tomcat 
+-------------------
+copy sm-shop/target/ROOT.war to tomcat or any other application server deployment dir
+
+Increase heap space to 1024 m
+
+### Heap space configuration in Tomcat:
+
+
+If you are using Tomcat, edit catalina.bat for windows users or catalina.sh for linux / Mac users
+
+	in Windows
+	set JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+	
+	in Linux / Mac
+	export JAVA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=256m" 
+
+Run the application from Spring boot 
+-------------------
+
+       $ cd sm-shop
+       $ mvnw spring-boot:run
+
+Run the application from Spring boot in eclipse
+-------------------
+
+Right click on com.salesmanager.shop.application.ShopApplication
+
+run as Java Application
+
+Run the application from Spring boot in IntelliJ
+-------------------
+
+In Run/Debug Configurations, set to the option Working directory the path of the sm-shop project
+
+run ShopApplication
+
+Run Docker image with working demo
+-------------------
+
+	docker run -p 80:8080 shopizerecomm/shopizer:latest
+
+
+### Access the application:
+-------------------
+
+Access the deployed web application at: http://localhost:8080/
+
+Access the admin section at: http://localhost:8080/admin
+
+username : admin@shopizer.com
+
+password : password
+
+The instructions above will let you run the application with default settings and configurations.
+Please read the instructions on how to connect to MySQL, configure an email server and configure other subsystems
+
+
+### Documentation:
+-------------------
+
+Documentation available <http://documentation.shopizer.com>
+
+ChatOps <https://shopizer.slack.com>  - Join our Slack channel https://shopizer-slackin.herokuapp.com/
+
+More information is available on shopizer web site here <http://www.shopizer.com>
+
+### Participation:
+-------------------
+
+If you have interest in giving feedback or for participating to Shopizer project in any way
+Feel to use the contact form <http://www.shopizer.com/contact.html> and share your email address
+so we can send an invite to our Slack channel
+
+

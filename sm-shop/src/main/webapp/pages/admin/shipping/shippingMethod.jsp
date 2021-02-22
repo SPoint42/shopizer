@@ -24,7 +24,7 @@
 
 
 								<div class="sm-ui-component">
-								<h3><s:message code="label.shipping.title" text="Shipping configuration" /> - <s:message code="module.shipping.${configuration.moduleCode}" text="No label found - ${configuration.moduleCode}"/></h3>	
+								<h3><s:message code="label.shipping.title" text="Shipping configuration" /> - <s:message code="module.shipping.${configuration.moduleCode}" arguments="${requestScope.ADMIN_STORE.storename}" text="No label found - ${configuration.moduleCode}"/></h3>	
 								<br/>
 								
 								
@@ -40,7 +40,7 @@
 	                    	</c:if>
 							
 							
-							<form:form method="POST" commandName="configuration" action="${saveShippingMethod}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveShippingMethod}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -89,7 +89,7 @@
 							
 		                  <c:if test="${configuration.active && validationError==null}">      
 		                  <c:url var="removeModule" value="/admin/shipping/deleteShippingMethod.html"/>
-		                  <form:form method="POST" enctype="multipart/form-data" commandName="code" action="${removeModule}">
+		                  <form:form method="POST" enctype="multipart/form-data" modelAttribute="code" action="${removeModule}">
 									<input type="hidden" name="code" value="${configuration.moduleCode}" />
 			                        <div class="form-actions">
 			                            <div class="pull-right">

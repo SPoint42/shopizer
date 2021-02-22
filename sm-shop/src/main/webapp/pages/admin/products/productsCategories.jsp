@@ -24,7 +24,7 @@
 				
 			
 			<c:url var="addCategory" value="/admin/products/addProductToCategories.html" />
-			<form:form method="POST" enctype="multipart/form-data" commandName="product" action="${addCategory}">
+			<form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${addCategory}">
 			<form:errors path="*" cssClass="alert alert-error" element="div" />
 			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
 					<s:message code="message.success" text="Request successfull" />
@@ -37,7 +37,7 @@
 				<label><s:message code="label.productedit.categoryname" text="Category"/></label>
 			  	<div class="controls">
 	                        		<form:select path="id">
-					  					<form:options items="${categories}" itemValue="id" itemLabel="descriptions[0].name"/>
+					  					<form:options items="${categories}" itemValue="category.id" itemLabel="descriptions[0].name"/>
 				       				</form:select>
 	                                <span class="help-inline"><form:errors path="id" cssClass="error" /></span>
 				</div>

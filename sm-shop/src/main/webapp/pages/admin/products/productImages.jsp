@@ -26,7 +26,7 @@
 				
 			<!--  Add content images -->
 			<c:url var="saveProductImages" value="/admin/products/images/save.html" />
-			<form:form method="POST" enctype="multipart/form-data" commandName="contentImages" action="${saveProductImages}">
+			<form:form method="POST" enctype="multipart/form-data" modelAttribute="contentImages" action="${saveProductImages}">
 			<form:errors path="*" cssClass="alert alert-error" element="div" />
 			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
 					<s:message code="message.success" text="Request successfull" />
@@ -65,7 +65,9 @@
 				<c:set value="/admin/products/images/remove.html" var="removeUrl" scope="request" />
 				<c:set value="/admin/products/images/list.html?id=${product.id}" var="refreshUrl" scope="request" />
 				<c:set var="componentTitleKey" value="menu.catalogue-products-images" scope="request" />
+				<c:set value="/admin/products/images/defaultImage.html" var="defaultImageUrl" scope="request" />
 				<c:set var="canRemoveEntry" value="true" scope="request" />
+				<c:set var="canSetDefaultEntry" value="true" scope="request" />
 				<jsp:include page="/pages/admin/components/images-list.jsp"></jsp:include>
 				<!-- End listing grid include -->
 			

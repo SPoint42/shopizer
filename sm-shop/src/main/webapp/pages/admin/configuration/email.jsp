@@ -29,7 +29,7 @@
 								
 
 							<c:url var="saveEmailConfiguration" value="/admin/configuration/saveEmailConfiguration.html"/>
-							<form:form method="POST" commandName="configuration" action="${saveEmailConfiguration}">
+							<form:form method="POST" modelAttribute="configuration" action="${saveEmailConfiguration}">
 
       							
       								<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -71,7 +71,7 @@
 	                        		<div class="control-group">
                         				<label><s:message code="label.emailconfig.password" text="Password"/></label>
                         				<div class="controls">
-											<form:password cssClass="input-large" path="password" />
+											<form:password cssClass="input-large" path="password" showPassword="true"/>
                         				</div>
 	                                	<span class="help-inline"><form:errors path="password" cssClass="error" /></span>
 	                        		</div>	

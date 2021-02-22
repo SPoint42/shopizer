@@ -1,15 +1,59 @@
-{"product_fr": {
-						"properties" :  {
-							"name": {"type": "multi_field","fields": {"name_original":{"type":"string","index":"not_analyzed"},"name_searchable":{"type":"string","index":"analyzed","store":"no"}}},
-							"price" : {"type":"string","index":"not_analyzed"},
-							"categories" : {"type":"string","index":"not_analyzed"},
-							"lang" : {"type":"string","index":"not_analyzed"},
-							"store" : {"type":"string","index":"not_analyzed"},
-							"availability" : {"type":"string","index":"not_analyzed"},
-							"manufacturer" : {"type":"string","index":"not_analyzed"},
-							"available" : {"type":"string","index":"not_analyzed"},
-							"description" : {"type":"string","index":"analyzed","index_analyzer":"french"}, 
-							"tags" : {"type":"string","index":"not_analyzed"} 
-						 } 
+{
+		"properties": {
+			"name": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"sku": {
+				"type": "keyword"
+			},
+			"store": {
+				"type": "keyword"
+			},
+			"lang": {
+				"type": "keyword"
+			},
+			"categories": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"manufacturer": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"description": {
+				"type": "keyword",
+				"fields": {
+					"analyzed": {
+						"type": "text",
+						"analyzer": "nameAnalyzer",
+						"search_analyzer": "nameAnalyzer"
+					}
+				}
+			},
+			"tags": {
+				"type": "keyword"
+			},
+			"price": {
+				"type": "float"
 			}
+		}
 }

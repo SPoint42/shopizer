@@ -80,7 +80,7 @@
 				<c:url var="userSave" value="/admin/users/save.html"/>
 
 
-				<form:form method="POST" commandName="user" action="${userSave}">
+				<form:form method="POST" modelAttribute="user" action="${userSave}">
 
       							
       				<form:errors path="*" cssClass="alert alert-error" element="div" />
@@ -155,7 +155,7 @@
 	                            <span class="help-inline"><form:errors path="groups" cssClass="error" /></span>
 	                        </div>
 	              </div>
-	               </sec:authorize>
+	              </sec:authorize>
                   
                   
                   <sec:authorize access="hasRole('ADMIN') and fullyAuthenticated">

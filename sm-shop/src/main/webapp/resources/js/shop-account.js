@@ -2,7 +2,7 @@
  
 
 	$(function(){
-		log('Check for customer account');
+		//log('Check for customer account');
 		if(supportsCustomerLogin()) {
 			if($('#customerNotLoggedInAccountTemplate')) {
 				var customerNotLoggedInTemplate = Hogan.compile(document.getElementById("customerNotLoggedInAccountTemplate").innerHTML);
@@ -12,20 +12,12 @@
 			}
 			initUserAccount();
 		}
-		
-		//init bindings
-    	//$("#switchLanguageButton").click(function(e) {
-    	//	log('Switch Language');
-    		//go to home page and set the new language
-    	//	location.href = getContextPath() + '/shop?locale=fr';
-    	//});
-		
-		
+
 	});
 	
 	function initUserAccount() {
 		var userName = getUserName();
-		log('userName ' + userName);
+		//log('userName ' + userName);
 		if(userName!=null) {
 			displayUserAccount(userName);
 		}
@@ -35,7 +27,7 @@
 
 
 function displayUserAccount(userName){
-	url = getContextPath() + '/shop/customer/accountSummary.html?userName='+userName;
+	url = getContextPath() + '/shop/customer/accountSummary.json?userName='+userName;
 	$.ajax({  
 		 type: 'GET',  
 		 url: url,  
@@ -46,7 +38,7 @@ function displayUserAccount(userName){
 			 
 		 },
 		 success: function(customer) {
-			 log('Return');
+			 log('From account summary');
 			 if(customer!=null) {
 				 //display user
 				 //alert("Supports customer loggin " + supportsCustomerLogin());
@@ -70,6 +62,7 @@ function getUserName() {
 	var code = new Array();
 	
 	if(user!=null) {
+		user = user.replace(/['"]+/g, '');
 		code = user.split('_');
 		if(code[0]==getMerchantStoreCode()) {
 			return code[1];

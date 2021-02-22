@@ -22,9 +22,6 @@ response.setDateHeader ("Expires", -1);
 
 <script type="text/javascript">
 
-var RecaptchaOptions = {
-	    theme : 'clean'
-};
 
 $(document).ready(function() {
 	
@@ -92,7 +89,7 @@ function isFormValid() {
 	<div id="main-content" class="container clearfix row-fluid">
 			<div id="registrationError"  class="alert alert-warning common-row" style="display:none;"></div>
 			<div class="span7 col-md-7 no-padding">
-				<form:form method="post" action="${register_url}" id="registrationForm" class="form-horizontal" commandName="customer">
+				<form:form method="post" action="${register_url}" id="registrationForm" class="form-horizontal" modelAttribute="customer">
 					<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
 					<fieldset>
 						<div class="control-group form-group">
@@ -164,7 +161,6 @@ function isFormValid() {
 							     <s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/>
 							     <form:input path="emailAddress" cssClass="span8 required email form-control form-control-md" id="email" title="${msgEmail}"/>
 							     <form:errors path="emailAddress" cssClass="error" />
-								
 							</div>
 						</div>
 						
@@ -187,27 +183,17 @@ function isFormValid() {
 						</div>						
 		
 						<div class="control-group form-group">
-							<div class="controls"><!--watch the white space in IOS!-->
-								<script type="text/javascript"
-    								 src="http://www.google.com/recaptcha/api/challenge?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}">
-  								</script>
-							<noscript>
-								<iframe
-									src="http://www.google.com/recaptcha/api/noscript?k=<c:out value="${recapatcha_public_key}"/>&hl=${requestScope.LANGUAGE.code}"
-									height="300" width="500" frameborder="0">
-								</iframe>
-								<br/>
-								<form:textarea path="recaptcha_challenge_field" class="form-control" readonly="3" cols="40"/>
-								<form:errors path="recaptcha_challenge_field" cssClass="error" />
-     							
-								<input type="hidden" name="recaptcha_response_field"
-									value="manual_challenge">
-							</noscript>
-						</div>
+										<div class="controls">
+											
+											<script src="https://www.google.com/recaptcha/api.js?hl=<c:out value="${requestScope.LANGUAGE.code}"/>" async defer></script>
+
+											<div class="g-recaptcha" data-sitekey="<c:out value="${recapatcha_public_key}"/>"></div>
+
+										</div>
 						</div>
 
 						<div class="form-actions">
-							<input id="submitRegistration" type="submit" value="<s:message code="label.generic.register" text="Register"/>" name="register" class="btn btn-large">
+							<input id="submitRegistration" type="submit" value="<s:message code="label.generic.register" text="Register"/>" name="register" class="btn btn-large template-btn">
 						</div>
 					</fieldset>
 				</form:form>

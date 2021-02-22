@@ -93,7 +93,7 @@ function isFormValid() {
 					</span>
 					<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>
 					<div id="formError"  class="alert alert-warning" style="display:none;"></div>
-					<form:form method="POST" id="changeAddressForm" commandName="address" action="${updateAddress}">
+					<form:form method="POST" id="changeAddressForm" modelAttribute="address" action="${updateAddress}">
 				         <!-- TODO REMOVE -->
 				         <input type="hidden" name="customerId" value="${customerId}">
 				         <input type="hidden" name="billingAddress" value="${address.billingAddress}">
@@ -119,7 +119,7 @@ function isFormValid() {
 		                </div>
 
 					   <div class="control-group form-group">
-						<label><s:message code="label.customer.company" text="Company"/></label>
+						<label><s:message code="label.customer.companyname" text="Company"/></label>
 						<div class="controls">
 		              		
 		              		<form:input  cssClass="input-large form-control form-control-md"  maxlength="100" path="company"/>	
@@ -130,7 +130,7 @@ function isFormValid() {
 			            	<label><s:message code="label.customer.streetaddress" text="Street Address"/></label>
 			            <div class="controls">
 			            	
-			            	<s:message code="NotEmpty.customer.address" text="Address is required" var="msgAddress"/>
+			            	<s:message code="NotEmpty.customer.address2" text="Address is required" var="msgAddress"/>
 				 			<form:input  cssClass="input-large required form-control form-control-md"  maxlength="256"  path="address" title="${msgAddress}"/>		 				
 			            </div>
 			            </div>
@@ -185,7 +185,7 @@ function isFormValid() {
 	               
 
 					 <div class="form-actions">
-							<input id="submitAddress" class="btn btn-large btn-disabled" type="submit" name="submitAddress" value="<s:message code="menu.editaddress" text="Change address"/>" disabled="">
+							<input id="submitAddress" class="btn btn-large btn-disabled template-btn" type="submit" name="submitAddress" value="<s:message code="menu.editaddress" text="Change address"/>" disabled="">
 					  </div>
 
 

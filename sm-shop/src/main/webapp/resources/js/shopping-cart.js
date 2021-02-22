@@ -136,7 +136,7 @@
 		
 		$.ajax({  
 			 type: 'POST',  
-			 url: getContextPath() + '/shop/cart/addShoppingCartItem.html',  
+			 url: getContextPath() + '/shop/cart/addShoppingCartItem',  
 			 data: scItem, 
 			 contentType: 'application/json;charset=utf-8',
 			 dataType: 'json', 
@@ -172,6 +172,11 @@ function updateLineItem(lineItemId,actionURL){
 	$( "#shoppingCartLineitem_"+lineItemId).submit();	
 }
 
+function updateUnavailableLineItem(lineItemId,actionURL){
+	$("#unavailableCartLineitem_"+lineItemId).attr('action', actionURL);
+	$( "#unavailableCartLineitem_"+lineItemId).submit();	
+}
+
 //update full cart
 function updateCart(cartDiv) {
 	$('.alert-error').hide();
@@ -198,10 +203,14 @@ function updateCart(cartDiv) {
 		}
 		//update cart
 		json_data = JSON.stringify(items);
-
+		var promoCode = $('#promoCode').val();
+		var url = getContextPath() + '/shop/cart/updateShoppingCartItem.html';
+		if(promoCode != null) {
+			url = url + '?promoCode=' + promoCode;
+		}
 		$.ajax({  
 			 type: 'POST',  
-			 url: getContextPath() + '/shop/cart/updateShoppingCartItem.html',
+			 url: url,
 			 data: json_data,
 			 contentType: 'application/json;charset=utf-8',
 			 dataType: 'json', 
@@ -237,7 +246,7 @@ function displayMiniCart(){
 
 	$.ajax({  
 		 type: 'GET',  
-		 url: getContextPath() + '/shop/cart/displayMiniCartByCode.html?shoppingCartCode='+cartCode,  
+		 url: getContextPath() + '/shop/cart/displayMiniCartByCode?shoppingCartCode='+cartCode,  
 		 cache:false,
 		 error: function(e) { 
 			 $('#cart-box').removeClass('loading-indicator-overlay');/** manage manually cart loading**/
@@ -278,7 +287,7 @@ function removeItemFromMinicart(lineItemId){
 	$.ajax({  
 		 type: 'GET',
 		 cache:false,
-		 url: getContextPath() + '/shop/cart/removeMiniShoppingCartItem.html?lineItemId='+lineItemId + '&shoppingCartCode=' + shoppingCartCode,  
+		 url: getContextPath() + '/shop/cart/removeMiniShoppingCartItem?lineItemId='+lineItemId + '&shoppingCartCode=' + shoppingCartCode,  
 		 error: function(e) { 
 			 console.log('error ' + e);
 			 
@@ -301,7 +310,7 @@ function removeItemFromMinicart(lineItemId){
 function displayMiniCartSummary(code){
 	$.ajax({  
 		 type: 'GET',  
-		 url: getContextPath() + '/shop/cart/displayMiniCartByCode.html?shoppingCartCode='+code,  
+		 url: getContextPath() + '/shop/cart/displayMiniCartByCode?shoppingCartCode='+code,  
 		 error: function(e) { 
 			// do nothing
 			console('error while getting cart');

@@ -20,9 +20,25 @@ function log(value) {
 	}
 }
 
-function loadProducts(url,divProductsContainer) {
-	$(divProductsContainer).showLoading();
+function showSMLoading(element) {
+	if ( typeof showTemplateLoading == 'function' ) { 
+		showTemplateLoading(element);
+	} else {
+		$(element).showLoading();
+	}
+	
+}
 
+function hideSMLoading(element) {
+	if ( typeof hideTemplateLoading == 'function' ) {
+		hideTemplateLoading(element);
+	} else {
+		$(element).hideLoading();
+	}
+}
+
+function loadProducts(url,divProductsContainer) {
+	showSMLoading(divProductsContainer);
 	$.ajax({
 			type: 'POST',
 			dataType: "json",
@@ -35,7 +51,7 @@ function loadProducts(url,divProductsContainer) {
 
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
-				$(divProductsContainer).hideLoading();
+				hideSMLoading(divProductsContainer);
 				alert('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
 			}
 			
@@ -46,50 +62,29 @@ function loadProducts(url,divProductsContainer) {
 }
 
 
+
 function searchProducts(url,divProductsContainer,q,filter) {
-	
-	$(divProductsContainer).showLoading();
-	
+
 	if(q==null || q=='') {
 		return;
 	}
 
-    //category facets
-	var facets = '\"facets\" : { \"categories\" : { \"terms\" : {\"field\" : \"categories\"}}}';
-    var highlights = null;
-	var queryStart = '{';
+	var query = '{"query":"'+ q + '","start":0, "count":25}';
 
-	var query = '\"query\":{\"query_string\" : {\"fields\" : [\"name^3\", \"description\", \"tags\"], \"query\" : \"*' + q + '*", \"use_dis_max\" : true }}';
-	if(filter!=null && filter!='') {
-		//query = '\"query\":{\"filtered\":{\"query\":{\"text\":{\"_all\":\"' + q + '\"}},' + filter + '}}';
-		query = query + ',' + filter + '}}';
-	}
-
-	if(facets!=null && facets!='') {
-		query = query + ',' + facets;
-	}
-
-	var queryEnd = '}';
-	
-	query = queryStart + query + queryEnd;
 
 	$.ajax({
-  			cache: false,
+			cache: false,
   			type:"POST",
   			dataType:"json",
-  			url:url,
+  			url:'/api/v1/search',
   			data:query,
   			contentType:"application/json;charset=UTF-8",
 			success: function(productList) {
-
-				buildProductsList(productList,divProductsContainer, null);
 				callBackSearchProducts(productList);
-
-
 			},
 			error: function(jqXHR,textStatus,errorThrown) { 
 				$(divProductsContainer).hideLoading();
-				alert('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
+				log('Error ' + jqXHR + "-" + textStatus + "-" + errorThrown);
 			}
 			
 	});

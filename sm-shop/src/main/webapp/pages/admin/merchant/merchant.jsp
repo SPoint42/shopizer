@@ -14,7 +14,7 @@
 
 
 $(document).ready(function() {
-	
+
 	if($("#code").val()=="") {
 		$('.btn').addClass('disabled');
 	}
@@ -52,9 +52,12 @@ $.fn.addItems = function(data) {
 };
 
 function getZones(countryCode){
+
+	var url = '<c:url value="/admin/reference/provinces.html"/>?lang=<c:out value="${requestScope.LANGUAGE.code}"/>';	
+
 	$.ajax({
 	  type: 'POST',
-	  url: '<c:url value="/admin/reference/provinces.html"/>',
+	  url: url,
 	  data: 'countryCode=' + countryCode,
 	  dataType: 'json',
 	  success: function(response){
@@ -139,7 +142,7 @@ function callBackCheckCode(msg,code) {
 				<c:url var="merchant" value="/admin/store/save.html"/>
 
 
-				<form:form method="POST" commandName="store" action="${merchant}">
+				<form:form method="POST" modelAttribute="store" action="${merchant}">
 				
 					<form:errors path="*" cssClass="alert alert-error" element="div" />
 					<div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>    
@@ -236,7 +239,7 @@ function callBackCheckCode(msg,code) {
 	                        <label><s:message code="label.supportedlanguages" text="Supported languages"/></label>
 	                        <div class="controls">
 
-	                        					<form:checkboxes cssClass="highlight" items="${languages}" itemValue="code" itemLabel="code" path="languages" /> 
+	                        					<form:checkboxes cssClass="highlight" items="${languages}" itemValue="id" itemLabel="code" path="languages" /> 
 	                                   			<span class="help-inline"><form:errors path="languages" cssClass="error" /></span>
 	                        </div>
 	                  </div>
@@ -293,7 +296,7 @@ function callBackCheckCode(msg,code) {
 	                  <div class="control-group">
 	                        <label><s:message code="label.store.inbusinesssince" text="Web site operating since"/></label>
 	                        <div class="controls">
-	                        					<input id="dateBusinessSince" name="dateBusinessSince" value="${store.dateBusinessSince}" class="small" type="text" data-date-format="<%=com.salesmanager.core.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
+	                        					<input id="dateBusinessSince" name="dateBusinessSince" value="${store.dateBusinessSince}" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
 	                                   			 <span class="help-inline"><form:errors path="dateBusinessSince" cssClass="error" /></span>
 	                        </div>
 	                  </div>
@@ -310,9 +313,6 @@ function callBackCheckCode(msg,code) {
 	                  <div class="control-group">
 	                        <label><s:message code="label.store.baseurl" text="Store base url"/></label>
 	                        <div class="controls">
-	                                    <span class="add-on">
-											http://
-										</span>
 										<form:input cssClass="input-medium highlight" path="domainName" />
 	                                    <span class="help-inline"><form:errors path="domainName" cssClass="error" /></span>
 	                        </div>

@@ -14,6 +14,7 @@ response.setDateHeader ("Expires", -1);
 
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
+
 								
 										<sec:authorize access="!hasRole('AUTH_CUSTOMER') and fullyAuthenticated">
 											<!-- no dual login -->
@@ -36,7 +37,7 @@ response.setDateHeader ("Expires", -1);
 									<c:if test="${reviews!=null}">
 										<c:forEach items="${reviews}" var="review" varStatus="status">
 											    <p>
-											    <div id="productRating<c:out value="${status.count}"/>" style="width: 100px;">
+											    <div class="stars" id="productRating<c:out value="${status.count}"/>" style="width: 100px;">
 											    </div>
 											    <br/>
 											    <blockquote>
